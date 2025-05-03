@@ -6,7 +6,6 @@ import com.StraCode.finance.domain.repositories.PaymentMethodRepo;
 import com.StraCode.finance.dto.PaymentMethodDto;
 import com.StraCode.finance.exceptions.AccountNotFoundException;
 import com.StraCode.finance.exceptions.NegativeAmountException;
-import com.StraCode.finance.exceptions.NullDtoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

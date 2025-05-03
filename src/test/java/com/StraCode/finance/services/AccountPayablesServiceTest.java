@@ -20,7 +20,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class AccountPayablesServiceTest {
 
@@ -30,9 +30,9 @@ class AccountPayablesServiceTest {
     @InjectMocks
     private AccountPayablesService payablesService;
 
-    AccountPayablesDto payablesDtoNegativeAmount;
+    private AccountPayablesDto payablesDtoNegativeAmount;
 
-    AccountPayablesDto payablesDtoPositiveAmount;
+    private AccountPayablesDto payablesDtoPositiveAmount;
 
 
     @BeforeEach
@@ -115,5 +115,76 @@ class AccountPayablesServiceTest {
         assertEquals(AccountPayablesFactory.toDto(accounts.get(0)).getAccountPayableId(), dto.get(0).getAccountPayableId());
         assertEquals(AccountPayablesFactory.toDto(accounts.get(1)).getAccountPayableId(), dto.get(1).getAccountPayableId());
     }
+
+
+
+    @Test
+    @DisplayName("Should create account payable successfully when amount is positive")
+    void createAccountPayable_WithPositiveAmount_ShouldSucceed() {
+        AccountPayables account = AccountPayablesFactory.toAccountPayable(payablesDtoPositiveAmount);
+        when(payableRepo.save(account)).thenReturn(account);
+
+        AccountPayablesDto result = payablesService.createAccountPayable(payablesDtoPositiveAmount);
+
+        assertEquals(payablesDtoPositiveAmount, result);
+    }
+
+    @Test
+    @DisplayName("Should update account payable successfully when ID and amount are valid")
+    void updateAccountPayable_WithValidIdAndAmount_ShouldSucceed() {
+        UUID id = payablesDtoPositiveAmount.getAccountPayableId();
+        AccountPayables existingAccount = new AccountPayables(
+                "Old Description",
+                new BigDecimal("100.00"),
+                LocalDateTime.now(),
+                "Old Status",
+                "OldSupplier",
+                "OldCategory",
+                LocalDateTime.now(),
+                "OldPaymentMethod"
+        );
+        existingAccount.setAccountPayableId(id);
+
+        when(payableRepo.findById(id)).thenReturn(Optional.of(existingAccount));
+        when(payableRepo.save(any(AccountPayables.class))).thenReturn(existingAccount);
+
+        AccountPayablesDto result = payablesService.updateAccountPayable(id, payablesDtoPositiveAmount);
+
+        assertEquals(payablesDtoPositiveAmount.getDescription(), result.getDescription());
+        assertEquals(payablesDtoPositiveAmount.getAmount(), result.getAmount());
+    }
+
+    @Test
+    @DisplayName("Should delete account payable successfully when ID is valid")
+    void deleteAccountPayable_WithValidId_ShouldSucceed() {
+        UUID id = UUID.randomUUID();
+        AccountPayables existingAccount = new AccountPayables(
+                "To be deleted",
+                new BigDecimal("100.00"),
+                LocalDateTime.now(),
+                "Status",
+                "Supplier",
+                "Category",
+                LocalDateTime.now(),
+                "PaymentMethod"
+        );
+        existingAccount.setAccountPayableId(id);
+
+        when(payableRepo.findById(id)).thenReturn(Optional.of(existingAccount));
+        doNothing().when(payableRepo).delete(existingAccount);
+
+        assertDoesNotThrow(() -> payablesService.deleteAccountPayable(id));
+        verify(payableRepo, times(1)).delete(existingAccount);
+    }
+
+    @Test
+    @DisplayName("Should throw AccountNotFoundException when deleting account with invalid ID")
+    void deleteAccountPayable_WithInvalidId_ShouldThrowAccountNotFoundException() {
+        UUID invalidId = UUID.randomUUID();
+        when(payableRepo.findById(invalidId)).thenReturn(Optional.empty());
+
+        assertThrows(AccountNotFoundException.class, () -> payablesService.deleteAccountPayable(invalidId));
+    }
+
 
 }

@@ -5,7 +5,6 @@ import com.StraCode.finance.domain.model.AccountCategories;
 import com.StraCode.finance.domain.repositories.AccountCategoriesRepo;
 import com.StraCode.finance.dto.AccountCategoriesDto;
 import com.StraCode.finance.exceptions.AccountNotFoundException;
-import com.StraCode.finance.exceptions.NullDtoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
