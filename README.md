@@ -1,4 +1,3 @@
-````markdown
 # StraCode Finance - Módulo Financeiro
 
 Este é o módulo financeiro da aplicação da Empresa Júnior do IFMA - Campus Santa Inês, desenvolvido por
