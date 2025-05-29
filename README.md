@@ -90,7 +90,7 @@ Exemplo de `POST`:
 ```json
 {
   "name": "Serviços",
-  "type": "RECEITA" // ou "DESPESA"
+  "type": "RECEITA"
 }
 ```
 
