@@ -1,7 +1,8 @@
 ````markdown
 # StraCode Finance - Módulo Financeiro
 
-Este é o módulo financeiro da aplicação da Empresa Júnior do IFMA - Campus Santa Inês, desenvolvido por **Henrique Coqueiro**. A API foi criada para gerir informações financeiras como contas a pagar, contas a receber, métodos de pagamento e categorias financeiras.
+Este é o módulo financeiro da aplicação da Empresa Júnior do IFMA - Campus Santa Inês, desenvolvido por
+**Henrique Coqueiro**. A API foi criada para gerir informações financeiras como contas a pagar, contas a receber, métodos de pagamento e categorias financeiras.
 
 ---
 
